@@ -1,6 +1,10 @@
+#%%
 # PyBank
 import os
 import csv
+# Files to load and output (Remember to change these)
+file_to_load = os.path.join("Resources", "budget_data.csv")
+file_to_output = os.path.join("analysis", "budget_analysis.txt")
 
 # Declare Variables:
 changes_by_month = []
@@ -12,15 +16,15 @@ greatest_increase = 0
 greatest_increase_month = 0
 greatest_decrease_month = 0
 
-# Describe the file path to the CSV file:
-csv_path = os.path.join('Resources', 'budget_data.csv')
+# Read the csv and convert it into a list of dictionaries
+with open(file_to_load) as budget_data:
+   reader = csv.reader(budget_data)
+   # Read the header
+   header = next(reader)
+   # For each row...
+   for row in reader:
 
-# Opening and reading the file
-with open(csv_path, newline='') as csvfile:
-    csvreader = csv.reader(csvfile, delimiter=',')
-    csv_header = next(csvreader)
-    row = next(csvreader)
-    print(csv_header)
+
 
     # Setting variables for rows and calculating number 
     previous_row = int(row[1])
@@ -29,8 +33,8 @@ with open(csv_path, newline='') as csvfile:
     greatest_increase = int(row[1])
     greatest_increase_month = row[0]
 
-    # Defining headers:
-    for row in csvreader:
+    for row in reader:
+           # Run the loader animation
 
          # Number of months:      
          number_of_months += 1
@@ -60,16 +64,31 @@ with open(csv_path, newline='') as csvfile:
     decrease = min(changes_by_month)
     increase = max(changes_by_month)
 
+
 # Print Analysis
-print(f"Financial Analysis")
-print(f"---------------------------")
-print(f"Total Months: {number_of_months}")
-print(f"Total: ${profit_losses}")
-print(f"Average Change: ${average_change:.2f}")
-print(f"Greatest Increase in Profits:, {greatest_increase_month}, (${increase})")
-print(f"Greatest Decrease in Profits:, {greatest_decrease_month}, (${decrease})")
+ 
+# Print Analysis
+
+financial_analysis = (f'''Financial Analysis"
+---------------------------
+Total Months: {number_of_months}
+Total: ${profit_losses}
+Average Change: ${average_change:.2f}")
+Greatest Increase in Profits:, {greatest_increase_month}, (${increase})")
+Greatest Decrease in Profits:, {greatest_decrease_month}, (${decrease})''')
+
+#Print out analysis
+print(financial_analysis)
+
+#Create a .txt file containing the same analysis in the print out
+analysis = open('financial_analysis.txt', 'w')
+
+analysis.write(financial_analysis)
+
+analysis.close()
 
 
+ 
     
 
 
